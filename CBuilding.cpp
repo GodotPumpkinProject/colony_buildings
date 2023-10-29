@@ -31,4 +31,61 @@ void CBuilding::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_benifet_timer"), &CBuilding::GetBenifetTimer);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "benifet_timer"), 
     "set_benifet_timer", "get_benifet_timer");
+    
+    ClassDB::bind_method(D_METHOD("set_housing_slots", "slots"), &CBuilding::SetHousingSlots);
+    ClassDB::bind_method(D_METHOD("get_housing_slots"), &CBuilding::GetHousingSlots);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "housing_slots"), 
+    "set_housing_slots", "get_housing_slots");
+
+    //   void SetJobRoleList(Array<Ref<CJobRoleCount>>& newList){ this->jobRoleList = newList;}
+    //Array<Ref<CJobRoleCount>> GetJobRoleList(){return this->jobRoleList;}
+    ClassDB::bind_method(D_METHOD("set_job_role_list", "job_list"), &CBuilding::set_job_role_list);
+    ClassDB::bind_method(D_METHOD("get_job_role_list"), &CBuilding::get_job_role_list);
+     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "job_list", PROPERTY_HINT_ARRAY_TYPE, MAKE_RESOURCE_TYPE_HINT("CJobRoleCount")), 
+     "set_job_role_list", "get_job_role_list");
+
+}
+
+TypedArray<CJobRoleCount> CBuilding::get_job_role_list()
+{
+    TypedArray<CJobRoleCount> returnList = {};
+    for (auto r : this->jobRoleList)
+    {
+        returnList.append(r);
+    }
+    return returnList;
+}
+
+void CBuilding::set_job_role_list(const TypedArray<CJobRoleCount> newList)
+{
+    this->jobRoleList = {};
+    for (int i = 0; i < newList.size(); ++i)
+    {
+        this->jobRoleList.append(newList[i]);
+    }
+}
+
+void CBuilding::OnBuildingPlaced()
+{
+    
+}
+
+void CBuilding::OnBuildingRemoved()
+{
+    
+}
+
+void CBuilding::SetHousingSlots(const int newCount)
+{
+    this->housingSlots = newCount;
+}
+
+int CBuilding::GetTotalJobCount()
+{
+    int totalCount = 0;
+    for (auto r : this->jobRoleList)
+    {
+        totalCount += r->get_count();
+    }
+    return totalCount;
 }

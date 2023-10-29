@@ -31,22 +31,26 @@
 #include "register_types.h"
 
 #include "CBuilding.h"
+#include "CBuildingServer.h"
+#include "CBuildingWorld.h"
 #include "core/object/class_db.h"
 
 //#include "colony_buildingsClass.h"
 
 void initialize_colony_buildings_module(ModuleInitializationLevel p_level) {
-	if (p_level == MODULE_INITIALIZATION_LEVEL_CORE)
-	{
-		ClassDB::register_class<CBuilding>();
 
+	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
+	{
+		GDREGISTER_CLASS(CBuilding);
+		GDREGISTER_CLASS(CBuildingWorld);
 	}
 
 	if (p_level == MODULE_INITIALIZATION_LEVEL_SERVERS)
 	{
-		//resourceServer = memnew(ColonyResourceServer);
-		//Engine::get_singleton()->add_singleton(Engine::Singleton("GetColonyResourceServer", ColonyResourceServer::get_singleton()));
+		buildingServer = memnew(CBuildingServer);
+		Engine::get_singleton()->add_singleton(Engine::Singleton("BuildingServer", CBuildingServer::get_singleton()));
 	}
+
 }
 
 void uninitialize_colony_buildings_module(ModuleInitializationLevel p_level) {

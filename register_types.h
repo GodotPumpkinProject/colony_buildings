@@ -31,8 +31,10 @@
 #ifndef COLONY_BUILDINGS_REGISTER_TYPES_H
 #define COLONY_BUILDINGS_REGISTER_TYPES_H
 
+#include "CBuildingServer.h"
 #include "modules/register_module_types.h"
 
+static CBuildingServer* buildingServer;
 void initialize_colony_buildings_module(ModuleInitializationLevel p_level);
 void uninitialize_colony_buildings_module(ModuleInitializationLevel p_level);
 
