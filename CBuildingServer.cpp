@@ -72,7 +72,7 @@ void CBuildingServer::AddBuilding(CBuildingWorld* newBuilding)
     }
      if (newBuilding->get_building().is_null())
      {
-         print_error("Building must have building resource type");
+         //print_error("Building must have building resource type");
          return;
      }
     
@@ -80,7 +80,7 @@ void CBuildingServer::AddBuilding(CBuildingWorld* newBuilding)
      auto foundIndex = this->buildingList.find(newBuilding);
      if (foundIndex != -1)
      {
-         print_error("Building must not have been added to servers.");
+         //print_error("Building Server : BUILDING NOT FOUND.");
          return;
      }
 
@@ -94,12 +94,12 @@ void CBuildingServer::RemoveBuilding(CBuildingWorld* newBuilding)
 {
     if (newBuilding == NULL)
     {
-        print_error("Building must be real to be added to server");
+        //print_error("Building must be real to be added to server");
         return;
     }
      if (newBuilding->get_building().is_null())
      {
-         print_error("Building must have building resource type.");
+         //print_error("Building must have building resource type.");
          return;
      }
     
@@ -107,7 +107,7 @@ void CBuildingServer::RemoveBuilding(CBuildingWorld* newBuilding)
      auto foundIndex = this->buildingList.find(newBuilding);
      if (foundIndex != -1)
      {
-         print_error("Building must not have been added to servers.");
+         //print_error("Building must not have been added to servers.");
          return;
      }
 

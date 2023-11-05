@@ -32,7 +32,6 @@ void CBuildingWorld::_bind_methods()
 
     ClassDB::bind_method(D_METHOD("set_building", "building"), &CBuildingWorld::set_building);
     ClassDB::bind_method(D_METHOD("get_building"), &CBuildingWorld::get_building);
-    ClassDB::bind_method(D_METHOD("get_building"), &CBuildingWorld::get_building);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "building", PROPERTY_HINT_RESOURCE_TYPE, "CBuilding"), 
     "set_building", "get_building");
 
@@ -137,7 +136,10 @@ void CBuildingWorld::AddHousedColonist(Ref<CColonist> colonist)
 
 void CBuildingWorld::RemoveHousedColonist(Ref<CColonist> colonist)
 {
-    if (colonist.is_null()){ return; }
+    if (colonist.is_null())
+    {
+        return;
+    }
     
     auto index = this->colonistHoused.find(colonist);
     if (index != -1)
