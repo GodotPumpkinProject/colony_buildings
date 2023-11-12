@@ -2,15 +2,15 @@
 
 
 #include "CBuilding.h"
-//#include "CBuildingWorld.h"
+//#include "CBuildingWorldBase.h"
 
-#include "CBuildingWorld.h"
+#include "CBuildingWorldBase.h"
 #include "servers/update_loop_server.h"
 
 class CBuildingServer : public UpdateServer {
     GDCLASS(CBuildingServer, UpdateServer);
 
-    Vector<CBuildingWorld*> buildingList;
+    Vector<CBuildingWorldBase*> buildingList;
     static void _bind_methods();
     
 public:
@@ -21,15 +21,15 @@ public:
     virtual void PreRenderUpdate(float realTime, float gameTime);
     virtual void PostUpdate(float realTime, float gameTime);
 
-    void AddBuilding(CBuildingWorld* newBuilding);
-    //
-    void RemoveBuilding(CBuildingWorld* newBuilding);
+    void AddBuilding(CBuildingWorldBase* newBuilding);
+    
+    void RemoveBuilding(CBuildingWorldBase* newBuilding);
 
     Array GetBuildings();
 
     Array GetBuildingsWithSpareHousing();
 
-    Array GetBuildingsWithSpareJobs();
+    //Array GetBuildingsWithSpareJobs();
 
     Array GetBuildingsWithSpareJobsByType(Ref<CJobRole> jobRole);
 

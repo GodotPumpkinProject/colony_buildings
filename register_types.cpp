@@ -33,16 +33,21 @@
 #include "CBuilding.h"
 #include "CBuildingServer.h"
 #include "CBuildingWorld.h"
+#include "CBuildingWorldBase.h"
 #include "core/object/class_db.h"
 
-//#include "colony_buildingsClass.h"
 
 void initialize_colony_buildings_module(ModuleInitializationLevel p_level) {
 
 	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
 	{
 		GDREGISTER_CLASS(CBuilding);
-		GDREGISTER_CLASS(CBuildingWorld);
+		
+		//GDREGISTER_CLASS(CBuildingWorld);
+		GDREGISTER_CLASS(CBuildingWorldBase);
+		GDREGISTER_CLASS(CBuildingWorld_Farm);
+		GDREGISTER_CLASS(CBuildingWorld_SimpleProduction);
+		GDREGISTER_CLASS(CBuildingWorld_Housing);
 	}
 
 	if (p_level == MODULE_INITIALIZATION_LEVEL_SERVERS)

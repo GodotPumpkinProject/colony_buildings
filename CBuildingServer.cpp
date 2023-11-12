@@ -20,7 +20,7 @@ void CBuildingServer::_bind_methods()
     ClassDB::bind_method(D_METHOD("remove_building", "building"), &CBuildingServer::RemoveBuilding);
     ClassDB::bind_method(D_METHOD("get_buildings"), &CBuildingServer::GetBuildings);
     ClassDB::bind_method(D_METHOD("get_buildings_with_spare_housing"), &CBuildingServer::GetBuildingsWithSpareHousing);
-    ClassDB::bind_method(D_METHOD("get_buildings_with_spare_jobs"), &CBuildingServer::GetBuildingsWithSpareJobs);
+   // ClassDB::bind_method(D_METHOD("get_buildings_with_spare_jobs"), &CBuildingServer::GetBuildingsWithSpareJobs);
     ClassDB::bind_method(D_METHOD("get_buildings_with_spare_jobs_by_type", "job_type"), &CBuildingServer::GetBuildingsWithSpareJobsByType);
     ClassDB::bind_method(D_METHOD("get_job_count_by_type", "job_type"), &CBuildingServer::GetJobCountByType);
 
@@ -31,10 +31,10 @@ void CBuildingServer::_bind_methods()
 
 void CBuildingServer::OnUpdate(double realTime, double gameTime)
 {
-    for (auto b : this->buildingList)
-    {
-        b->ResourceUpdate(gameTime);
-    }
+    // for (auto b : this->buildingList)
+    // {
+    //     b->ResourceUpdate(gameTime);
+    // }
 }
 
 void CBuildingServer::PrePhysicsUpdate(float realTime, float gameTime)
@@ -62,7 +62,7 @@ void CBuildingServer::PostUpdate(float realTime, float gameTime)
     //flecs_world->run_pipeline(pipeline_postUpdate, realTime);
 }
 
-void CBuildingServer::AddBuilding(CBuildingWorld* newBuilding)
+void CBuildingServer::AddBuilding(CBuildingWorldBase* newBuilding)
 {
     //Check if building exists
     if (newBuilding == NULL)
@@ -70,7 +70,7 @@ void CBuildingServer::AddBuilding(CBuildingWorld* newBuilding)
         print_error("Building must be real to be added to server");
         return;
     }
-     if (newBuilding->get_building().is_null())
+     if (newBuilding->get_building_type().is_null())
      {
          //print_error("Building must have building resource type");
          return;
@@ -90,14 +90,14 @@ void CBuildingServer::AddBuilding(CBuildingWorld* newBuilding)
     emit_signal(OnBuildingAdd);
 }
 
-void CBuildingServer::RemoveBuilding(CBuildingWorld* newBuilding)
+void CBuildingServer::RemoveBuilding(CBuildingWorldBase* newBuilding)
 {
     if (newBuilding == NULL)
     {
         //print_error("Building must be real to be added to server");
         return;
     }
-     if (newBuilding->get_building().is_null())
+     if (newBuilding->get_building_type().is_null())
      {
          //print_error("Building must have building resource type.");
          return;
@@ -132,7 +132,8 @@ Array CBuildingServer::GetBuildingsWithSpareHousing()
     Array returnList = {};
     for (auto a : this->buildingList)
     {
-        if (a->HasHousingCapacity())
+        // print_line("CBuildingServer::GetBuildingsWithSpareHousing");
+        if (a->has_spare_housing())
         {
             returnList.append(a);    
         }
@@ -140,25 +141,25 @@ Array CBuildingServer::GetBuildingsWithSpareHousing()
     return returnList;
 }
 
-Array CBuildingServer::GetBuildingsWithSpareJobs()
-{
-    Array returnList = {};
-    for (auto a : this->buildingList)
-    {
-        if (a->HasJobCapacity())
-        {
-            returnList.append(a);    
-        }
-    }
-    return returnList;
-}
+// Array CBuildingServer::GetBuildingsWithSpareJobs()
+// {
+//     Array returnList = {};
+//     for (auto a : this->buildingList)
+//     {
+//         if (a->has_spare_jobs())
+//         {
+//             returnList.append(a);    
+//         }
+//     }
+//     return returnList;
+// }
 
 Array CBuildingServer::GetBuildingsWithSpareJobsByType(Ref<CJobRole> jobRole)
 {
     Array returnList = {};
     for (auto a : this->buildingList)
     {
-        if (a->HasJobCapacityByType(jobRole))
+        if (a->has_spare_jobs_by_type(jobRole))
         {
             returnList.append(a);    
         }
@@ -171,7 +172,7 @@ int CBuildingServer::GetJobCountByType(Ref<CJobRole> jobRole)
     int count = 0;
     for (auto a : this->buildingList)
     {
-        count += a->JobCountByType(jobRole);
+        count += a->get_max_jobs_by_type (jobRole);
     }
     return count;
 }
